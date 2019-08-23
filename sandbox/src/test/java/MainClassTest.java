@@ -13,4 +13,11 @@ public class MainClassTest {
   public void testGetClassNumber() {
     Assert.assertTrue("getClassNumber() is more than 45", mc.getClassNumber() > 45);
   }
+
+  @Test
+  public void testGetClassString() {
+    if (!mc.getClassString().contains("hello") && !mc.getClassString().contains("Hello")) {
+      Assert.fail("getClassString() does not contain 'hello' or 'Hello'!");
+    }
+  }
 }
