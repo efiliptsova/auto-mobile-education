@@ -15,3 +15,5 @@ gradle-app.setting
 sandbox/.idea/misc.xml
 *.class
 sandbox/.idea/workspace.xml
+javaAppiumAutomation/.idea/misc.xml
+javaAppiumAutomation/.idea/workspace.xml
