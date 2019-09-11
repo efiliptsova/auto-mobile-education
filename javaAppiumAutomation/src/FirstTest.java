@@ -11,6 +11,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+
 public class FirstTest {
 
   private AppiumDriver driver;
@@ -24,8 +25,10 @@ public class FirstTest {
     cap.setCapability("automationName", "Appium");
     cap.setCapability("appPackage", "org.wikipedia");
     cap.setCapability("appActivity", ".main.MainActivity");
-    cap.setCapability("app", "F:/Projects/GitHub/mobile-auto-education/javaAppiumAutomation/apks/org.wikipedia.apk");
+    //cap.setCapability("app", "F:/Projects/GitHub/mobile-auto-education/javaAppiumAutomation/apks/org.wikipedia.apk");
+    cap.setCapability("app", "D:/PROJECTS/Руководство/GitHub/mobile-auto-education/javaAppiumAutomation/apks/org.wikipedia.apk");
 
+    // включаем андройд драйвер
     driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
   }
 
@@ -41,17 +44,17 @@ public class FirstTest {
     System.out.println("First test run!");
   }
 
+  // Задание 2
   @Test
   public void testSearchTextExist() {
     driver.findElementByXPath("//*[contains(@text, 'Search Wikipedia')]").click();
-    // !!! Вопрос. Почему поиск по локатору не сработал, пока не могу поять почему, буду признательна если подскажете!!!
-    //WebElement searchField = driver.findElementById("org.wikipedia:id/search_src_text");
-    //Assert.assertEquals(searchField.getAttribute("text"), "Search…");
-
-    WebElement searchField = driver.findElementByXPath("//*[contains(@text, 'Search…')]");
-    Assert.assertNotNull("Expected text in search field does not exist", searchField);
-
+    WebElement searchField = driver.findElementById("org.wikipedia:id/search_src_text");
+    String text = searchField.getText();
+    Assert.assertEquals(text, "Search…");
   }
+
+  // Задание 3
+
 
 
 
