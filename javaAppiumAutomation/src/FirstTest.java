@@ -12,6 +12,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 
 public class FirstTest {
@@ -90,6 +91,34 @@ public class FirstTest {
             By.id("org.wikipedia:id/page_list_item_container"),
             "Search result is still present on the page",
             10);
+  }
+
+  // Задание 4
+  @Test
+  public void testCheckWords() throws InterruptedException {
+    // Ищем какое-то слово
+    String searchText = "java";
+    waitForElementAndClick(
+            By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
+            "Cannot find 'Search Wikipedia' input",
+            2);
+    waitForElementAndSendKeys(
+            By.id("org.wikipedia:id/search_src_text"),
+            searchText,
+            "Cannot find search input",
+            2);
+    // Убеждаемся, что найдено несколько статей
+    waitForElementsPresent(
+            By.id("org.wikipedia:id/page_list_item_container"),
+            "Cannot find several articles",
+            5);
+    List<WebElement> list = driver.findElements(By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*"));
+    String text1 = "";
+    for (WebElement el : list)
+    {
+      text1 = el.getText();
+      //Assert.assertTrue(String.format("Found element without text '%s'", searchText), text.contains("java"));
+    }
   }
 
   private WebElement waitForElementAndClick(By by, String error_message, long timeout) {
