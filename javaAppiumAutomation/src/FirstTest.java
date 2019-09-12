@@ -7,6 +7,8 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -47,15 +49,82 @@ public class FirstTest {
   // Задание 2
   @Test
   public void testSearchTextExist() {
-    driver.findElementByXPath("//*[contains(@text, 'Search Wikipedia')]").click();
-    WebElement searchField = driver.findElementById("org.wikipedia:id/search_src_text");
-    String text = searchField.getText();
-    Assert.assertEquals(text, "Search…");
+    //driver.findElementByXPath("//*[contains(@text, 'Search Wikipedia')]").click();
+    //WebElement searchField = driver.findElementById("org.wikipedia:id/search_src_text");
+    waitForElementAndClick(
+            By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
+            "Cannot find 'Search Wikipedia' input",
+            5);
+    WebElement searchField = waitForElementPresent(
+            By.id("org.wikipedia:id/search_src_text"),
+            "Cannot find search input",
+            5);
+    Assert.assertEquals(searchField.getText(), "Search…");
   }
 
   // Задание 3
+  @Test
+  public void testSearchCancel() throws InterruptedException {
+    // Ищем какое-то слово
+    waitForElementAndClick(
+            By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
+            "Cannot find 'Search Wikipedia' input",
+            2);
+    waitForElementAndSendKeys(
+            By.id("org.wikipedia:id/search_src_text"),
+            "Java",
+            "Cannot find search input",
+            2);
+    // Убеждаемся, что найдено несколько статей
+    waitForElementsPresent(
+            By.id("org.wikipedia:id/page_list_item_container"),
+            "Cannot find several articles",
+            2);
+    // Отменяем поиск
+    waitForElementAndClick(
+            By.id("org.wikipedia:id/search_close_btn"),
+            "Cannot find X to cancel search",
+            2);
+    // Убеждаемся, что результат поиска пропал
+    waitForElementNotPresent(
+            By.id("org.wikipedia:id/page_list_item_container"),
+            "Search result is still present on the page",
+            10);
+  }
 
+  private WebElement waitForElementAndClick(By by, String error_message, long timeout) {
+    WebElement el = waitForElementPresent(by, error_message, timeout);
+    el.click();
+    return el;
+  }
 
+  private WebElement waitForElementAndSendKeys(By by, String value, String error_message, long timeout) {
+    WebElement el = waitForElementPresent(by, error_message, timeout);
+    el.sendKeys(value);
+    return el;
+  }
 
+  private WebElement waitForElementPresent(By by, String error_message, long timeout) {
+    WebDriverWait wait = new WebDriverWait(driver, timeout);
+    wait.withMessage(error_message + "\n");
+    return  wait.until(ExpectedConditions.presenceOfElementLocated(by));
+  }
+
+  private boolean waitForElementsPresent(By by, String error_message, long timeout) {
+    WebDriverWait wait = new WebDriverWait(driver, timeout);
+    wait.withMessage(error_message + "\n");
+    wait.until(ExpectedConditions.presenceOfElementLocated(by));
+    int count = driver.findElements(by).size();
+    if (count > 1)
+      return true;
+    else
+      return false;
+  }
+
+  private boolean waitForElementNotPresent(By by, String error_message, long timeout) {
+    WebDriverWait wait = new WebDriverWait(driver, timeout);
+    wait.withMessage(error_message + "\n");
+    return  wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
+  }
 
 }
