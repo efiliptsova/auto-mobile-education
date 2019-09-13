@@ -93,7 +93,7 @@ public class FirstTest {
             10);
   }
 
-  // Задание 4
+  // Задание 4 - НЕ ГОТОВО !!!
   @Test
   public void testCheckWords() throws InterruptedException {
     // Ищем какое-то слово
@@ -121,6 +121,68 @@ public class FirstTest {
     }
   }
 
+  // Задание 5
+  @Test
+  public void saveTwoArticleToList()
+  {
+    String searchText = "java";
+    waitForElementAndClick(
+            By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
+            "Cannot find 'Search Wikipedia' input",
+            2);
+    waitForElementAndSendKeys(
+            By.id("org.wikipedia:id/search_src_text"),
+            searchText,
+            "Cannot find search input",
+            2);
+    waitForElementAndClick(
+            By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Programming language']"),
+            "Cannot find 'Search Wikipedia' input",
+            2);
+    waitForElementsPresent(
+            By.id("org.wikipedia:id/view_page_title_text"),
+            "Cannot find article title",
+            10);
+    waitForElementAndClick(
+            By.xpath("//android.widget.ImageView[@content-desc='More options']"),
+            "Cannot find button to open article options",
+            2);
+    waitForElementAndClick(
+            By.xpath("//*[@text='Add to reading list']"),
+            "Cannot find option to add article to reading list",
+            10);
+    waitForElementAndClick(
+            By.id("org.wikipedia:id/onboarding_button"),
+            "Cannot find 'Got it' tip overlay",
+            10);
+    waitForElementAndClear(
+            By.id("org.wikipedia:id/text_input"),
+            "Cannot clear text into articles folder input",
+            5);
+    waitForElementAndSendKeys(
+            By.id("org.wikipedia:id/text_input"),
+            "AAAAA list",
+            "Cannot put text into articles folder input",
+            5);
+    waitForElementAndClick(
+            By.id("//*[@text='OK']"),
+            "Cannot press 'OK' button",
+            5);
+    waitForElementAndClick(
+            By.id("//android.widget.ImageView[@content-desc='Navigate up']"),
+            "Cannot close article, cannot find X link",
+            2);
+
+
+    //Сохраняет две статьи в одну папку
+
+    //Удаляет одну из статей
+
+    //Убеждается, что вторая осталась
+
+    //Переходит в неё и убеждается, что title совпадает
+  }
+
   private WebElement waitForElementAndClick(By by, String error_message, long timeout) {
     WebElement el = waitForElementPresent(by, error_message, timeout);
     el.click();
@@ -130,6 +192,12 @@ public class FirstTest {
   private WebElement waitForElementAndSendKeys(By by, String value, String error_message, long timeout) {
     WebElement el = waitForElementPresent(by, error_message, timeout);
     el.sendKeys(value);
+    return el;
+  }
+
+  private WebElement waitForElementAndClear(By by, String error_message, long timeout) {
+    WebElement el = waitForElementPresent(by, error_message, timeout);
+    el.clear();
     return el;
   }
 
