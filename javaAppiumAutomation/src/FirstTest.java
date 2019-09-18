@@ -1,10 +1,12 @@
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -125,7 +127,69 @@ public class FirstTest {
   @Test
   public void saveTwoArticleToList()
   {
+    //
+    // 1. Сохраняет две статьи в одну папку
+    //
     String searchText = "java";
+    String listName = "ABC3 list";
+
+    String articleName = "Programming language";
+    saveArticle(searchText, true, articleName, listName);
+
+    String secondArticleName = "Object-oriented programming language";
+    saveArticle(searchText, false, secondArticleName, listName);
+
+    //
+    // 2. Удаляет одну из статей
+    //
+
+    //проверяем, что статья действительно добавилась
+    waitForElementAndClick(
+            By.xpath("//android.widget.FrameLayout[@content-desc='My lists']"),
+            "Cannot find navigation button to My List",
+            15);
+
+    try {
+      Thread.sleep(3000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    waitForElementAndClick(
+            By.xpath("//android.widget.TextView[@text='" + listName + "']"),
+            "Cannot find created folder",
+            10);
+    //удаление статьи
+    swipeElementToLeft(
+            By.xpath("//*[@text='" + articleName.toLowerCase() + "']"),
+            "Cannot find saved article"
+    );
+    //убеждаемся, что  удаленная статья отсутствует
+    waitForElementNotPresent(
+            By.xpath("//*[@text='" + articleName.toLowerCase() + "']"),
+            "Deleted article is still exist",
+            5);
+
+    //
+    // 3. Убеждается, что вторая осталась
+    //
+    waitForElementPresent(
+            By.xpath("//*[@text='" + secondArticleName.toLowerCase() + "']"),
+            "Cannot find saved article",
+            5);
+
+    //
+    // 4. Переходит в неё и убеждается, что title совпадает
+    //
+    waitForElementAndClick(
+            By.xpath("//*[@text='" + secondArticleName.toLowerCase() + "']"),
+            "Cannot find navigation button to My List",
+            10);
+    WebElement el = waitForElementPresent(By.id("org.wikipedia:id/view_page_title_text"), "Cannot find article title", 10);
+    Assert.assertEquals(el.getText(), "Java (programming language)");
+  }
+
+  //Сохраняет статью articleName в папку folderName
+  private void saveArticle(String searchText, boolean newFolder, String articleName, String folderName) {
     waitForElementAndClick(
             By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
             "Cannot find 'Search Wikipedia' input",
@@ -136,56 +200,58 @@ public class FirstTest {
             "Cannot find search input",
             2);
     waitForElementAndClick(
-            By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Programming language']"),
+            By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='" + articleName + "']"),
             "Cannot find 'Search Wikipedia' input",
             2);
     waitForElementsPresent(
             By.id("org.wikipedia:id/view_page_title_text"),
             "Cannot find article title",
-            10);
+            15);
     waitForElementAndClick(
             By.xpath("//android.widget.ImageView[@content-desc='More options']"),
             "Cannot find button to open article options",
-            2);
+            5);
     waitForElementAndClick(
             By.xpath("//*[@text='Add to reading list']"),
             "Cannot find option to add article to reading list",
-            10);
-    waitForElementAndClick(
-            By.id("org.wikipedia:id/onboarding_button"),
-            "Cannot find 'Got it' tip overlay",
-            10);
-    waitForElementAndClear(
-            By.id("org.wikipedia:id/text_input"),
-            "Cannot clear text into articles folder input",
             5);
-    waitForElementAndSendKeys(
-            By.id("org.wikipedia:id/text_input"),
-            "AAAAA list",
-            "Cannot put text into articles folder input",
-            5);
+    // если содаем новую папку
+    if (newFolder == true) {
+      waitForElementAndClick(
+              By.id("org.wikipedia:id/onboarding_button"),
+              "Cannot find 'Got it' tip overlay",
+              5);
+      waitForElementAndClear(
+              By.id("org.wikipedia:id/text_input"),
+              "Cannot clear text into articles folder input",
+              5);
+      waitForElementAndSendKeys(
+              By.id("org.wikipedia:id/text_input"),
+              folderName,
+              "Cannot put text into articles folder input",
+              5);
+      waitForElementAndClick(
+              By.xpath("//*[@text='OK']"),
+              "Cannot press 'OK' button",
+              2);
+    } // если добавляем статью в уже существующую папку
+    else
+    {
+      waitForElementAndClick(
+              By.xpath("//android.widget.TextView[@text='" + folderName + "']"),
+              "Cannot find 'Got it' tip overlay",
+              5);
+    }
+    // закрытие статьи
     waitForElementAndClick(
-            By.id("//*[@text='OK']"),
-            "Cannot press 'OK' button",
-            5);
-    waitForElementAndClick(
-            By.id("//android.widget.ImageView[@content-desc='Navigate up']"),
+            By.xpath("//android.widget.ImageButton[@content-desc='Navigate up']"),
             "Cannot close article, cannot find X link",
             2);
-
-
-    //Сохраняет две статьи в одну папку
-
-    //Удаляет одну из статей
-
-    //Убеждается, что вторая осталась
-
-    //Переходит в неё и убеждается, что title совпадает
   }
 
   private WebElement waitForElementAndClick(By by, String error_message, long timeout) {
     WebElement el = waitForElementPresent(by, error_message, timeout);
-    el.click();
+     el.click();
     return el;
   }
 
@@ -222,6 +288,27 @@ public class FirstTest {
     WebDriverWait wait = new WebDriverWait(driver, timeout);
     wait.withMessage(error_message + "\n");
     return  wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
+  }
+
+  protected void swipeElementToLeft(By by, String error_message) {
+    WebElement el = waitForElementPresent(by, error_message, 10);
+    // получить самую левую точку элемента по оси х
+    int left_x = el.getLocation().getX();
+    // получить самую правую точку элемента по оси х
+    int right_x = left_x + el.getSize().getWidth();
+    // получить самую верхнюю точку элемента по оси у
+    int upper_y = el.getLocation().getY();
+    int lower_y = upper_y + el.getSize().getHeight();
+    int middle_y = (upper_y + lower_y)/2;
+
+    // инициализируем драйвер
+    TouchAction action = new TouchAction(driver);
+    action
+            .press(right_x, middle_y)
+            .waitAction(300)
+            .moveTo(left_x, middle_y)
+            .release()
+            .perform();
   }
 
 }
