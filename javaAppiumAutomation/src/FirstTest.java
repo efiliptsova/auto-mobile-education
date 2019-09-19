@@ -188,6 +188,38 @@ public class FirstTest {
     Assert.assertEquals(el.getText(), "Java (programming language)");
   }
 
+
+  // Задание 6
+  @Test
+  public void assertArticleTitle() {
+    String searchText = "java";
+    String articleName = "Programming language";
+
+    waitForElementAndClick(
+            By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
+            "Cannot find 'Search Wikipedia' input",
+            2);
+    waitForElementAndSendKeys(
+            By.id("org.wikipedia:id/search_src_text"),
+            searchText,
+            "Cannot find search input",
+            2);
+    waitForElementAndClick(
+            By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='" + articleName + "']"),
+            "Cannot find 'Search Wikipedia' input",
+            2);
+    assertElementPresent(By.id("org.wikipedia:id/view_page_title_text"));
+  }
+
+  private void assertElementPresent(By by) {
+    WebElement el = driver.findElement(by);
+    if (el == null)
+    {
+      String message = "An element with xpath locator " + by.toString() + " supposed to be present";
+      throw new AssertionError(message);
+    }
+  }
+
   //Сохраняет статью articleName в папку folderName
   private void saveArticle(String searchText, boolean newFolder, String articleName, String folderName) {
     waitForElementAndClick(
