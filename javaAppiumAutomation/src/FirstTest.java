@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -39,6 +40,7 @@ public class FirstTest {
 
   @After
   public void tearDown() {
+    driver.rotate(ScreenOrientation.PORTRAIT);
     driver.quit();
   }
 
@@ -188,7 +190,6 @@ public class FirstTest {
     Assert.assertEquals(el.getText(), "Java (programming language)");
   }
 
-
   // Задание 6
   @Test
   public void assertArticleTitle() {
@@ -209,6 +210,15 @@ public class FirstTest {
             "Cannot find 'Search Wikipedia' input",
             2);
     assertElementPresent(By.id("org.wikipedia:id/view_page_title_text"));
+  }
+
+  // Задание 7*
+  @Test
+  public void testRotation() {
+    Assert.assertTrue(driver.getOrientation().equals(ScreenOrientation.PORTRAIT));
+    driver.rotate(ScreenOrientation.LANDSCAPE);
+    driver.rotate(ScreenOrientation.PORTRAIT);
+    driver.rotate(ScreenOrientation.LANDSCAPE);
   }
 
   private void assertElementPresent(By by) {
