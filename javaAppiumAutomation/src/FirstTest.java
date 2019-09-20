@@ -36,11 +36,13 @@ public class FirstTest {
 
     // включаем андройд драйвер
     driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
+
+    // Задание 7
+    driver.rotate(ScreenOrientation.PORTRAIT);
   }
 
   @After
   public void tearDown() {
-    driver.rotate(ScreenOrientation.PORTRAIT);
     driver.quit();
   }
 
@@ -212,7 +214,7 @@ public class FirstTest {
     assertElementPresent(By.id("org.wikipedia:id/view_page_title_text"));
   }
 
-  // Задание 7*
+  // Задание 7* - решение см. в блоке @Before, ниже - просто тест для отладки
   @Test
   public void testRotation() {
     Assert.assertTrue(driver.getOrientation().equals(ScreenOrientation.PORTRAIT));
