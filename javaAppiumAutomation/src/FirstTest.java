@@ -224,8 +224,9 @@ public class FirstTest {
   }
 
   private void assertElementPresent(By by) {
-    WebElement el = driver.findElement(by);
-    if (el == null)
+    //WebElement el = driver.findElement(by);
+    //if (el == null)
+    if (driver.findElements(by).size() == 0)
     {
       String message = "An element with xpath locator " + by.toString() + " supposed to be present";
       throw new AssertionError(message);
