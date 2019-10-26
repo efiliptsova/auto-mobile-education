@@ -1,5 +1,8 @@
 package lib.ui;
 
+import io.appium.java_client.AppiumDriver;
+import org.openqa.selenium.By;
+
 public class WelcomePageObject extends MainPageObject{
 
   public WelcomePageObject(AppiumDriver driver) {
@@ -7,6 +10,6 @@ public class WelcomePageObject extends MainPageObject{
   }
 
   public void waitForWelcomeScreen1() {
-    this.waitForElementAndClick(By.id("Learn more about Wikipedia", "Connot find 'Learn more about Wikipedia'", 10));
+    this.waitForElementAndClick(By.id("Learn more about Wikipedia"), "Connot find 'Learn more about Wikipedia'", 10);
   }
 }

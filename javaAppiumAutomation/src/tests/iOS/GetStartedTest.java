@@ -1,6 +1,7 @@
 package tests.iOS;
 
-import lib.CoreTestCase;
+import lib.iOSTestCase;
+import lib.ui.WelcomePageObject;
 import org.junit.Test;
 
 public class GetStartedTest extends iOSTestCase
@@ -10,5 +11,10 @@ public class GetStartedTest extends iOSTestCase
     {
         WelcomePageObject welcomePageObject = new WelcomePageObject(driver);
         welcomePageObject.waitForWelcomeScreen1();
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
