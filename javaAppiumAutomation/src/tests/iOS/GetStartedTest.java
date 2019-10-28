@@ -11,10 +11,12 @@ public class GetStartedTest extends iOSTestCase
     {
         WelcomePageObject welcomePageObject = new WelcomePageObject(driver);
         welcomePageObject.waitForWelcomeScreen1();
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        welcomePageObject.clickNext();
+        welcomePageObject.waitForWelcomeScreen2();
+        welcomePageObject.clickNext();
+        welcomePageObject.waitForWelcomeScreen3();
+        welcomePageObject.clickNext();
+        welcomePageObject.waitForWelcomeScreen4();
+        welcomePageObject.clickGetStarted();
     }
 }
