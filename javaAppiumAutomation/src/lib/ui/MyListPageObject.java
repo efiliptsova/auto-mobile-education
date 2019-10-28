@@ -1,13 +1,12 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
-import org.openqa.selenium.By;
 
 public class MyListPageObject extends MainPageObject{
 
   private static final String
-          LIST_NAME_TPL = "//android.widget.TextView[@text='{LIST_NAME}']",
-          ARTICLE_NAME_IN_LIST_TPL = "//*[@text='{ARTICLE_NAME}']";
+          LIST_NAME_TPL = "xpath://android.widget.TextView[@text='{LIST_NAME}']",
+          ARTICLE_NAME_IN_LIST_TPL = "xpath://*[@text='{ARTICLE_NAME}']";
 
   public MyListPageObject(AppiumDriver driver) {
     super(driver);
@@ -25,7 +24,7 @@ public class MyListPageObject extends MainPageObject{
 
   public void selectListByName(String listName) {
     waitForElementAndClick(
-            By.xpath(getListNameLocator(listName)),
+            getListNameLocator(listName),
             "Cannot find created folder",
             10);
   }
@@ -34,7 +33,7 @@ public class MyListPageObject extends MainPageObject{
   public void deleteArticleFromList(String articleName)
   {
     swipeElementToLeft(
-            By.xpath(getArticleNameInListLocator(articleName.toLowerCase())),
+            getArticleNameInListLocator(articleName.toLowerCase()),
             "Cannot find saved article"
     );
   }
@@ -42,7 +41,7 @@ public class MyListPageObject extends MainPageObject{
   //убеждаемся, что статья отсутствует в списке
   public void checkThatArticleNotPresentInList(String articleName) {
     waitForElementNotPresent(
-            By.xpath(getArticleNameInListLocator(articleName.toLowerCase())),
+            getArticleNameInListLocator(articleName.toLowerCase()),
             "Deleted article is still exist",
             5);
   }
@@ -50,7 +49,7 @@ public class MyListPageObject extends MainPageObject{
   //убеждаемся, что статья присутствует в списке
   public void checkThatArticlePresentInList(String articleName) {
     waitForElementPresent(
-            By.xpath(getArticleNameInListLocator(articleName.toLowerCase())),
+            getArticleNameInListLocator(articleName.toLowerCase()),
             "Cannot find saved article",
             5);
   }
@@ -58,7 +57,7 @@ public class MyListPageObject extends MainPageObject{
   //выбор статьи в списке
   public void selectArticleInList(String articleName) {
     waitForElementAndClick(
-            By.xpath(getArticleNameInListLocator(articleName.toLowerCase())),
+            getArticleNameInListLocator(articleName.toLowerCase()),
             "Cannot find navigation button to My List",
             10);
   }

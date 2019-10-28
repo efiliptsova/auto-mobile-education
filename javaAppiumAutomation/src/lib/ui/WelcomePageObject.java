@@ -5,11 +5,14 @@ import org.openqa.selenium.By;
 
 public class WelcomePageObject extends MainPageObject{
 
+  private static final String
+          WELCOME_SCREEN1 = "id:Learn more about Wikipedia";
+
   public WelcomePageObject(AppiumDriver driver) {
     super(driver);
   }
 
   public void waitForWelcomeScreen1() {
-    this.waitForElementAndClick(By.id("Learn more about Wikipedia"), "Connot find 'Learn more about Wikipedia'", 10);
+    this.waitForElementAndClick(WELCOME_SCREEN1, "Connot find 'Learn more about Wikipedia'", 10);
   }
 }
