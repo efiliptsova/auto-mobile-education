@@ -6,14 +6,14 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-public class SearchPageObject extends MainPageObject{
+abstract public class SearchPageObject extends MainPageObject{
 
-  private static final String
-    SEARCH_INIT_ELEMENT = "xpath://*[contains(@text, 'Search Wikipedia')]",
-    SEARCH_INPUT = "id:org.wikipedia:id/search_src_text",
-    SEARCH_RESULT = "id:org.wikipedia:id/page_list_item_container",
-    SEARCH_RESULT_BY_SUBSTRING_TPL = "xpath://*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='{SUBSTRING}']",
-    SEARCH_CANCEL_BTN = "id:org.wikipedia:id/search_close_btn";
+  protected static String
+    SEARCH_INIT_ELEMENT,
+    SEARCH_INPUT,
+    SEARCH_RESULT,
+    SEARCH_RESULT_BY_SUBSTRING_TPL,
+    SEARCH_CANCEL_BTN;
 
   public SearchPageObject(AppiumDriver driver) {
     super(driver);
