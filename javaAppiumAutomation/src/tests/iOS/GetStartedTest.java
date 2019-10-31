@@ -1,6 +1,7 @@
 package tests.iOS;
 
 import lib.CoreTestCase;
+import lib.Platform;
 import lib.ui.WelcomePageObject;
 import org.junit.Test;
 
@@ -10,7 +11,7 @@ public class GetStartedTest extends CoreTestCase
     public void testPassThroughWelcome()
     {
         // пропускаем данный тест для платформы Android
-        if (this.platform.isAndroid())
+        if (Platform.getInstance().isAndroid())
         {
             return;
         }

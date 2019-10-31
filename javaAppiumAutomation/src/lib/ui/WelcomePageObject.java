@@ -10,7 +10,8 @@ public class WelcomePageObject extends MainPageObject{
           STEP_WELCOME_SCREEN2 = "id:New ways to explore",
           STEP_WELCOME_SCREEN3 = "id:Add or edit preferred languages",
           STEP_WELCOME_SCREEN4 = "Learn more about data collected",
-          GET_STARTED_BTN = "id:Get started";
+          GET_STARTED_BTN = "id:Get started",
+          SKIP_BTN = "id:Skip";
 
   public WelcomePageObject(AppiumDriver driver) {
     super(driver);
@@ -38,5 +39,9 @@ public class WelcomePageObject extends MainPageObject{
 
   public void clickGetStarted() {
     this.waitForElementAndClick(GET_STARTED_BTN, "Connot find and click 'Get started' button", 10);
+  }
+
+  public void clickSkip() {
+    this.waitForElementAndClick(SKIP_BTN, "Connot find and click 'Skip' button", 10);
   }
 }

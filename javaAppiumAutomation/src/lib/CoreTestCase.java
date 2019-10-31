@@ -2,21 +2,20 @@ package lib;
 
 import io.appium.java_client.AppiumDriver;
 import junit.framework.TestCase;
+import lib.ui.WelcomePageObject;
 import org.openqa.selenium.ScreenOrientation;
 
 public class CoreTestCase extends TestCase {
 
   protected AppiumDriver driver;
-  protected Platform platform;
 
   protected void setUp() throws Exception {
     super.setUp();
     // включаем драйвер
-    this.platform = new Platform();
-    platform.getDriver();
-
+    driver = Platform.getInstance().getDriver();
     // Задание 7*
     driver.rotate(ScreenOrientation.PORTRAIT);
+    skipWelcomePageForIOSApp();
   }
 
   public void tearDown() throws Exception {
@@ -37,6 +36,16 @@ public class CoreTestCase extends TestCase {
   protected ScreenOrientation getScreenOrientation()
   {
     return driver.getOrientation();
+  }
+
+  // функция скипа welcome-экрана для iOS
+  private void skipWelcomePageForIOSApp()
+  {
+    if (Platform.getInstance().isIOS())
+    {
+      WelcomePageObject welcomePageObject = new WelcomePageObject(driver);
+      welcomePageObject.clickSkip();
+    }
   }
 
 }

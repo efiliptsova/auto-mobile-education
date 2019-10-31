@@ -15,6 +15,20 @@ public class Platform {
           PLATFORM_IOS = "ios",
           APPIUM_URL = "http://127.0.0.1:4723/wd/hub";
 
+  private static Platform instance;
+
+  private Platform() {
+
+  }
+
+  public static Platform getInstance()
+  {
+    if (instance == null) {
+      instance = new Platform();
+    }
+    return instance;
+  }
+
   public Boolean isAndroid()
   {
     return isPlatform(PLATFORM_ANDROID);

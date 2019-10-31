@@ -3,6 +3,8 @@ package tests;
 import lib.CoreTestCase;
 import lib.ui.ArticlePageObject;
 import lib.ui.SearchPageObject;
+import lib.ui.factories.ArticlePageObjectFactory;
+import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 import org.openqa.selenium.WebElement;
 
@@ -13,7 +15,7 @@ public class SearchTests extends CoreTestCase {
   // Задание 2
   @Test
   public void testSearchTextExist() {
-    SearchPageObject searchPageObject = new SearchPageObject(driver);
+    SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
     searchPageObject.initSearchInput();
     assertEquals(searchPageObject.getSearchLineText(), "Search…");
   }
@@ -22,7 +24,7 @@ public class SearchTests extends CoreTestCase {
   @Test
   public void testSearchCancel() throws InterruptedException {
     // Ищем какое-то слово
-    SearchPageObject searchPageObject = new SearchPageObject(driver);
+    SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
     searchPageObject.initSearchInput();
     searchPageObject.typeSearchLine("Java");
     // Убеждаемся, что найдено несколько статей
@@ -38,7 +40,7 @@ public class SearchTests extends CoreTestCase {
   public void testCheckWords() throws InterruptedException {
     // Ищем какое-то слово
     String searchText = "java";
-    SearchPageObject searchPageObject = new SearchPageObject(driver);
+    SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
     searchPageObject.initSearchInput();
     searchPageObject.typeSearchLine(searchText);
     // Убеждаемся, что найдено несколько статей
@@ -48,7 +50,7 @@ public class SearchTests extends CoreTestCase {
     String titleText, descText = "";
     for (WebElement el : list)
     {
-      ArticlePageObject articlePageObject = new ArticlePageObject(driver);
+      ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
       titleText = articlePageObject.getArticleTitle(el);
       descText = articlePageObject.getArticleDescription(el);
       assertTrue(String.format("Found element without text '%s'", searchText),

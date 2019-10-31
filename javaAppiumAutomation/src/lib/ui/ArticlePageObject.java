@@ -1,22 +1,24 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import lib.Platform;
+import lib.ui.factories.SearchPageObjectFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-public class ArticlePageObject extends MainPageObject {
+public abstract class ArticlePageObject extends MainPageObject {
 
-  private static final String
-          ARTICLE_TITLE = "xpath://*[@resource-id='org.wikipedia:id/page_list_item_title']",
-          ARTICLE_DESCRIPTION = "xpath://*[@resource-id='org.wikipedia:id/page_list_item_description']",
-          ARTICLE_TITLE_ON_ARTICLE_PAGE = "id:org.wikipedia:id/view_page_title_text",
-          OPTIONS_BUTTON = "xpath://android.widget.ImageView[@content-desc='More options']",
-          OPTIONS_ADD_TO_READING_LIST_BUTTON = "xpath://*[@text='Add to reading list']",
-          ADD_TO_READING_LIST_OVERLAY = "id:org.wikipedia:id/onboarding_button",
-          READING_LIST_NAME_INPUT = "id:org.wikipedia:id/text_input",
-          READING_LIST_OK_BUTTON = "xpath://*[@text='OK']",
-          READING_LIST_NAME_TPL = "xpath://android.widget.TextView[@text='{FOLDER_NAME}']",
-          CLOSE_BUTTON = "xpath://android.widget.ImageButton[@content-desc='Navigate up']";
+  protected static String
+          ARTICLE_TITLE,
+          ARTICLE_DESCRIPTION,
+          ARTICLE_TITLE_ON_ARTICLE_PAGE,
+          OPTIONS_BUTTON,
+          OPTIONS_ADD_TO_READING_LIST_BUTTON,
+          ADD_TO_READING_LIST_OVERLAY,
+          READING_LIST_NAME_INPUT,
+          READING_LIST_OK_BUTTON,
+          READING_LIST_NAME_TPL,
+          CLOSE_BUTTON;
 
   public ArticlePageObject(AppiumDriver driver) {
     super(driver);
@@ -45,7 +47,14 @@ public class ArticlePageObject extends MainPageObject {
 
   public String getArticleTitle() {
     WebElement el = waitForElementPresent(ARTICLE_TITLE_ON_ARTICLE_PAGE, "Cannot find article title", 10);
-    return el.getText();
+    if (Platform.getInstance().isAndroid())
+    {
+      return el.getText();
+    }
+    else
+    {
+      return el.getAttribute("name");
+    }
   }
 
   public void clickOptionButton() {
@@ -102,7 +111,7 @@ public class ArticlePageObject extends MainPageObject {
   // Сохраняет статью articleName в папку folderName
   public void saveArticle(String searchText, boolean newFolder, String articleName, String folderName) {
 
-    SearchPageObject searchPageObject = new SearchPageObject(driver);
+    SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
     searchPageObject.initSearchInput();
     searchPageObject.typeSearchLine(searchText);
     // Убеждаемся, что найдены статьи и выбираем статью с именем articleName

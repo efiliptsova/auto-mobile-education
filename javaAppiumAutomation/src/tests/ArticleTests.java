@@ -2,6 +2,8 @@ package tests;
 
 import lib.CoreTestCase;
 import lib.ui.*;
+import lib.ui.factories.ArticlePageObjectFactory;
+import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
 public class ArticleTests extends CoreTestCase {
@@ -16,7 +18,7 @@ public class ArticleTests extends CoreTestCase {
     String searchText = "java";
     String listName = "ABC3 list";
     String articleName = "Programming language";
-    ArticlePageObject articlePageObject = new ArticlePageObject(driver);
+    ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
     articlePageObject.saveArticle(searchText, true, articleName, listName);
     String secondArticleName = "Object-oriented programming language";
     articlePageObject.saveArticle(searchText, false, secondArticleName, listName);
@@ -48,11 +50,11 @@ public class ArticleTests extends CoreTestCase {
     String searchText = "java";
     String articleName = "Programming language";
 
-    SearchPageObject searchPageObject = new SearchPageObject(driver);
+    SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
     searchPageObject.initSearchInput();
     searchPageObject.typeSearchLine(searchText);
     searchPageObject.waitForSearchResultAndSelectArticle(articleName);
-    ArticlePageObject articlePageObject = new ArticlePageObject(driver);
+    ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
     articlePageObject.checkArticleTitleLoaded();
   }
 
