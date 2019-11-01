@@ -9,7 +9,7 @@ public class WelcomePageObject extends MainPageObject{
           NEXT_BTN = "id:Next",
           STEP_WELCOME_SCREEN2 = "id:New ways to explore",
           STEP_WELCOME_SCREEN3 = "id:Add or edit preferred languages",
-          STEP_WELCOME_SCREEN4 = "Learn more about data collected",
+          STEP_WELCOME_SCREEN4 = "id:Learn more about data collected",
           GET_STARTED_BTN = "id:Get started",
           SKIP_BTN = "id:Skip";
 
@@ -22,7 +22,7 @@ public class WelcomePageObject extends MainPageObject{
   }
 
   public void clickNext() {
-    this.waitForElementAndClick(NEXT_BTN, "Connot find and click 'Next' button", 10);
+    this.waitForElementAndClick(NEXT_BTN, "Cannot find and click 'Next' button", 10);
   }
 
   public void waitForWelcomeScreen2() {
@@ -38,10 +38,10 @@ public class WelcomePageObject extends MainPageObject{
   }
 
   public void clickGetStarted() {
-    this.waitForElementAndClick(GET_STARTED_BTN, "Connot find and click 'Get started' button", 10);
+    this.waitForElementAndClick(GET_STARTED_BTN, "Cannot find and click 'Get started' button", 10);
   }
 
   public void clickSkip() {
-    this.waitForElementAndClick(SKIP_BTN, "Connot find and click 'Skip' button", 10);
+    this.waitForElementAndClick(SKIP_BTN, "Cannot find and click 'Skip' button", 10);
   }
 }
