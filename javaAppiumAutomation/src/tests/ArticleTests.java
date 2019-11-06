@@ -3,6 +3,8 @@ package tests;
 import lib.CoreTestCase;
 import lib.ui.*;
 import lib.ui.factories.ArticlePageObjectFactory;
+import lib.ui.factories.MyListPageObjectFactory;
+import lib.ui.factories.NavigationUIFactory;
 import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
@@ -25,9 +27,9 @@ public class ArticleTests extends CoreTestCase {
     //
     // 2. Удаляет одну из статей
     //
-    NavigationUI navigationUI = new NavigationUI(driver);
+    NavigationUI navigationUI = NavigationUIFactory.get(driver);
     navigationUI.goToMyList();
-    MyListPageObject myListPageObject = new MyListPageObject(driver);
+    MyListPageObject myListPageObject = MyListPageObjectFactory.get(driver);
     myListPageObject.selectListByName(listName);
     //удаление статьи
     myListPageObject.deleteArticleFromList(articleName);

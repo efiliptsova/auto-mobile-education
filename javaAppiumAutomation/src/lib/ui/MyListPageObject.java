@@ -1,10 +1,11 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import lib.Platform;
 
-public class MyListPageObject extends MainPageObject{
+abstract public class MyListPageObject extends MainPageObject{
 
-  private static final String
+  protected static String
           LIST_NAME_TPL = "xpath://android.widget.TextView[@text='{LIST_NAME}']",
           ARTICLE_NAME_IN_LIST_TPL = "xpath://*[@text='{ARTICLE_NAME}']";
 
@@ -32,10 +33,16 @@ public class MyListPageObject extends MainPageObject{
   //удаление статьи з списка
   public void deleteArticleFromList(String articleName)
   {
+    String article_xpath = getArticleNameInListLocator(articleName.toLowerCase());
     swipeElementToLeft(
-            getArticleNameInListLocator(articleName.toLowerCase()),
+            article_xpath,
             "Cannot find saved article"
     );
+    if (Platform.getInstance().isIOS())
+    {
+      // кликаем по синей иконке
+      this.clickElementToTheRigthUpperCorner(article_xpath, "Cannot find saved article");
+    }
   }
 
   //убеждаемся, что статья отсутствует в списке
