@@ -56,6 +56,7 @@ abstract public class SearchPageObject extends MainPageObject{
   /*TEMPLATE_METHODs*/
 
   public void waitForSearchResultAndSelectArticle(String substring) {
+    //xpath://XCUIElementTypeLink[@name='Programming language']
     String searchResultXpath = getResultSearchElement(substring);
     // Убеждаемся, что найдено несколько статей
     this.waitForElementAndClick(

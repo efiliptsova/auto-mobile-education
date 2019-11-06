@@ -15,6 +15,8 @@ public abstract class ArticlePageObject extends MainPageObject {
           OPTIONS_BUTTON,
           OPTIONS_ADD_TO_READING_LIST_BUTTON,
           ADD_TO_READING_LIST_OVERLAY,
+          ADD_TO_LIST_CONFIRM_BUTTON,
+          READING_LIST_CREATE_BUTTON,
           READING_LIST_NAME_INPUT,
           READING_LIST_OK_BUTTON,
           READING_LIST_NAME_TPL,
@@ -39,6 +41,7 @@ public abstract class ArticlePageObject extends MainPageObject {
   }
 
   public void waitForArticleLoaded() {
+    // id:org.wikipedia:id/view_page_title_text
     waitForElementsPresent(
             ARTICLE_TITLE_ON_ARTICLE_PAGE,
             "Cannot find article title",
@@ -68,7 +71,14 @@ public abstract class ArticlePageObject extends MainPageObject {
     waitForElementAndClick(
             OPTIONS_ADD_TO_READING_LIST_BUTTON,
             "Cannot find option to add article to reading list",
-            5);
+            2);
+    /*if (Platform.getInstance().isIOS())
+    {
+      waitForElementAndClick(
+              ADD_TO_LIST_CONFIRM_BUTTON,
+              "Cannot confirm button to add article to reading list",
+              5);
+    }*/
   }
 
   public void clickGotItOverlay() {
@@ -117,21 +127,48 @@ public abstract class ArticlePageObject extends MainPageObject {
     // Убеждаемся, что найдены статьи и выбираем статью с именем articleName
     searchPageObject.waitForSearchResultAndSelectArticle(articleName);
     waitForArticleLoaded();
-    clickOptionButton();
+    if (Platform.getInstance().isAndroid()) {
+      clickOptionButton();
+    }
     clickAddToReadingListButton();
     // если содаем новую папку
     if (newFolder)
     {
-      clickGotItOverlay();
-      enterListNameAndPressOk(folderName);
+      if (Platform.getInstance().isAndroid()) {
+        clickGotItOverlay();
+        enterListNameAndPressOk(folderName);
+      }
+      else {
+        clickAddConfirmBtn();
+        clickBtnToCreateNewList();
+        enterListNameAndPressOk(folderName);
+      }
     }
     // если добавляем статью в уже существующую папку
     else
     {
+      if (Platform.getInstance().isIOS()){
+        clickAddConfirmBtn();
+      }
       selectReadingListByName(folderName);
     }
     // закрытие статьи
     closeArticle();
+  }
+
+  private void clickBtnToCreateNewList() {
+    waitForElementAndClick(
+            READING_LIST_CREATE_BUTTON,
+            "Cannot press 'OK' button",
+            2);
+  }
+
+  protected void clickAddConfirmBtn() {
+    //XCUIElementTypeImage[@name="add-to-list"]
+    simpleClick(
+            ADD_TO_LIST_CONFIRM_BUTTON,
+            "Cannot find and click add to list confirm button",
+            5);
   }
 
   // Проверяет, что заголовок статьи загрузился

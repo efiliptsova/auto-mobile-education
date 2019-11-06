@@ -8,17 +8,21 @@ public class IOSArticlePageObject extends ArticlePageObject {
   static {
     ARTICLE_TITLE = "id:Java (programming language)";
     ARTICLE_DESCRIPTION = "xpath://*[@resource-id='org.wikipedia:id/page_list_item_description']"; //
-    ARTICLE_TITLE_ON_ARTICLE_PAGE = "id:org.wikipedia:id/view_page_title_text"; //
-    //OPTIONS_BUTTON = "xpath://android.widget.ImageView[@content-desc='More options']"; //
-    OPTIONS_ADD_TO_READING_LIST_BUTTON = "id:Save for later";
-    //ADD_TO_READING_LIST_OVERLAY = "id:org.wikipedia:id/onboarding_button";
-    //READING_LIST_NAME_INPUT = "id:org.wikipedia:id/text_input";
-    //READING_LIST_OK_BUTTON = "xpath://*[@text='OK']";
-    //READING_LIST_NAME_TPL = "xpath://android.widget.TextView[@text='{FOLDER_NAME}']";
+    //ARTICLE_TITLE_ON_ARTICLE_PAGE = "xpath://XCUIElementTypeWebView"; //
+    ARTICLE_TITLE_ON_ARTICLE_PAGE = "id:JavaScript";
+    OPTIONS_ADD_TO_READING_LIST_BUTTON = "xpath://XCUIElementTypeButton[@name='Save for later']";
+    ADD_TO_LIST_CONFIRM_BUTTON = "id:Add “JavaScript” to a reading list?";
+    //ADD_TO_LIST_CONFIRM_BUTTON = "xpath://XCUIElementTypeImage[@name='add-to-list']";
+    READING_LIST_NAME_INPUT = "xpath://XCUIElementTypeTextField[@value='reading list title']";
+    READING_LIST_OK_BUTTON = "id:Create reading list";
+    READING_LIST_CREATE_BUTTON = "id:Add";
+    READING_LIST_NAME_TPL = "id:{FOLDER_NAME}";
     CLOSE_BUTTON = "id:Back";
   }
 
   public IOSArticlePageObject(AppiumDriver driver) {
     super(driver);
   }
+
+
 }

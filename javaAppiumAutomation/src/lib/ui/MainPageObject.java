@@ -26,6 +26,13 @@ public class MainPageObject {
     return el;
   }
 
+  public WebElement simpleClick(String locator, String error_message, long timeout) {
+    By by = this.getLocatorByString(locator);
+    WebElement el = driver.findElement(by);
+    el.click();
+    return el;
+  }
+
   public WebElement waitForElementAndSendKeys(String locator, String value, String error_message, long timeout) {
     WebElement el = waitForElementPresent(locator, error_message, timeout);
     el.sendKeys(value);
