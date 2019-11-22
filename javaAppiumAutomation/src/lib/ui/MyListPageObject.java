@@ -1,12 +1,14 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import lib.Platform;
 
-public class MyListPageObject extends MainPageObject{
+public abstract class MyListPageObject extends MainPageObject{
 
-  private static final String
-          LIST_NAME_TPL = "xpath://android.widget.TextView[@text='{LIST_NAME}']",
-          ARTICLE_NAME_IN_LIST_TPL = "xpath://*[@text='{ARTICLE_NAME}']";
+  protected static String
+          LIST_NAME_TPL,
+          ARTICLE_NAME_IN_LIST_TPL,
+          READING_LIST_TAB;
 
   public MyListPageObject(AppiumDriver driver) {
     super(driver);
@@ -23,8 +25,17 @@ public class MyListPageObject extends MainPageObject{
   /*TEMPLATE_METHODs*/
 
   public void selectListByName(String listName) {
+    if (Platform.getInstance().isIOS())
+    {
+
+      waitForElementAndClick(
+              READING_LIST_TAB,
+              "Cannot find tab 'Reading list'",
+              10);
+    }
+    String loc = getListNameLocator(listName);
     waitForElementAndClick(
-            getListNameLocator(listName),
+            loc,
             "Cannot find created folder",
             10);
   }
@@ -36,6 +47,10 @@ public class MyListPageObject extends MainPageObject{
             getArticleNameInListLocator(articleName.toLowerCase()),
             "Cannot find saved article"
     );
+    if (Platform.getInstance().isIOS())
+    {
+      clickElementToTheRightUpperCorner(getArticleNameInListLocator(articleName), "Cannot find saved article");
+    }
   }
 
   //убеждаемся, что статья отсутствует в списке
