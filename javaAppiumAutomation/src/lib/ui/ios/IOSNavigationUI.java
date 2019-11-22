@@ -12,5 +12,4 @@ public class IOSNavigationUI extends NavigationUI {
   public IOSNavigationUI(AppiumDriver driver) {
     super(driver);
   }
-
 }

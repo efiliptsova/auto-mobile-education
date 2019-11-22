@@ -43,8 +43,9 @@ public abstract class MyListPageObject extends MainPageObject{
   //удаление статьи з списка
   public void deleteArticleFromList(String articleName)
   {
+    String article_xpath = getArticleNameInListLocator(articleName.toLowerCase());
     swipeElementToLeft(
-            getArticleNameInListLocator(articleName.toLowerCase()),
+            article_xpath,
             "Cannot find saved article"
     );
     if (Platform.getInstance().isIOS())

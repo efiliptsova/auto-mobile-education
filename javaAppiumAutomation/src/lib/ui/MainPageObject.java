@@ -11,6 +11,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.regex.Pattern;
 
+import lib.Platform;
+
 public class MainPageObject {
 
   protected AppiumDriver driver;
@@ -89,7 +91,7 @@ public class MainPageObject {
       action.moveTo(left_x, middle_y);
     }
     else {
-      int offset_x = (-1 * el.getSize().getWidth());
+      int offset_x = -1 * el.getSize().getWidth();
       action.moveTo(offset_x, 0);
     }
     action.release();
@@ -143,5 +145,27 @@ public class MainPageObject {
     {
       throw new IllegalArgumentException("Cannot get type of locator " + locatorWithType);
     }
+  }
+
+  public void clickElementToTheRigthUpperCorner(String locator, String error_message)
+  {
+    // переходим к родительскому элементу
+    WebElement el = waitForElementPresent(locator + "/..", error_message, 10);
+    // получить самую левую точку элемента по оси х
+    int right_x = el.getLocation().getX();
+    // получить самую верхнюю точку элемента по оси у
+    int upper_y = el.getLocation().getY();
+    int lower_y = upper_y + el.getSize().getHeight();
+    int middle_y = (upper_y + lower_y)/2;
+    int width = el.getSize().getWidth();
+
+    // хотим кликнуть в правый верхний угол для элемента
+    // находим правый верхний угол отступаем от него на некоторое значение (3)
+    // эта точка будет на 3 пикселя левее, чем полная ширина элемента
+    int point_to_click_x = (right_x + width) - 3;
+    // точка будет находится ровно по середине по высоте элемента
+    int point_to_click_y = middle_y;
+    TouchAction action = new TouchAction(driver);
+    action.tap(point_to_click_x, point_to_click_y);
   }
 }
