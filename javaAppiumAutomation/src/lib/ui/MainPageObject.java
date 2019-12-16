@@ -85,9 +85,10 @@ public class MainPageObject {
     // инициализируем драйвер
     TouchAction action = new TouchAction(driver);
     action.press(right_x, middle_y);
-    action.waitAction(300);
+    action.waitAction(1000);
     if (Platform.getInstance().isAndroid()) {
-      action.moveTo(left_x, middle_y);
+      //action.moveTo(left_x, middle_y);
+      action.moveTo(1, middle_y);
     }
     else {
       int offset_x = -1 * el.getSize().getWidth();

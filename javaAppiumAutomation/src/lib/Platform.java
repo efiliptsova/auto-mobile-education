@@ -60,7 +60,8 @@ public class Platform {
     DesiredCapabilities cap = new DesiredCapabilities();
     cap.setCapability("platformName", "Android");
     cap.setCapability("deviceName", "AndroidTestDevice");
-    cap.setCapability("platformVersion", "6.0");
+    cap.setCapability("platformVersion", "8.0.0");
+    //cap.setCapability("platformVersion", "6.0");
     cap.setCapability("automationName", "Appium");
     cap.setCapability("appPackage", "org.wikipedia");
     cap.setCapability("appActivity", ".main.MainActivity");
