@@ -2,6 +2,7 @@ package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.TouchAction;
+import lib.Platform;
 import org.openqa.selenium.By;
 //import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebElement;
@@ -96,6 +97,26 @@ public class MainPageObject {
     }
     action.release();
     action.perform();
+  }
+
+  public void clickElementToTheRightUpperCorner(String locator, String error_message)
+  {
+    WebElement el = waitForElementPresent(locator + "/..", error_message, 10);
+    // получить самую левую точку элемента по оси х
+    int left_x = el.getLocation().getX();
+    // получить самую правую точку элемента по оси х
+    int right_x = left_x + el.getSize().getWidth();
+    // получить самую верхнюю точку элемента по оси у
+    int upper_y = el.getLocation().getY();
+    int lower_y = upper_y + el.getSize().getHeight();
+    int middle_y = (upper_y + lower_y)/2;
+
+    int point_to_click_x = right_x - 3;
+    int point_to_click_y = middle_y;
+
+    // инициализируем драйвер
+    TouchAction action = new TouchAction(driver);
+    action.tap(point_to_click_x, point_to_click_y).perform();
   }
 
   public void assertElementPresent(String locator) {

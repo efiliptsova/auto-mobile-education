@@ -19,9 +19,11 @@ public class ArticleTests extends CoreTestCase {
     //
     String searchText = "java";
     String listName = "ABC3 list";
-    String articleName = "Programming language";
+    //String articleName = "Programming language";
+    String articleName = "rogramming language";
     ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
     articlePageObject.saveArticle(searchText, true, articleName, listName);
+
     String secondArticleName = "Object-oriented programming language";
     articlePageObject.saveArticle(searchText, false, secondArticleName, listName);
     //

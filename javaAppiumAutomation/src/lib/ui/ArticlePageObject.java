@@ -123,7 +123,14 @@ public abstract class ArticlePageObject extends MainPageObject {
 
     SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
     searchPageObject.initSearchInput();
-    searchPageObject.typeSearchLine(searchText);
+    if (newFolder) {
+      searchPageObject.typeSearchLine(searchText);
+    }
+    else {
+      if (Platform.getInstance().isAndroid())
+      {searchPageObject.typeSearchLine(searchText);}
+      // для iOS нам не надо вводить повторно слово поиска, оно сохранилось в поле ввода с предыдущего раза
+    }
     // Убеждаемся, что найдены статьи и выбираем статью с именем articleName
     searchPageObject.waitForSearchResultAndSelectArticle(articleName);
     waitForArticleLoaded();
